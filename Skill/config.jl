@@ -39,6 +39,8 @@ const INI_CHANNEL = :tv_channel
 #
 if LANG == "de"
     Snips.registerIntentAction("ADoSnipsOnOffDE", switchOnOffActions)
+    Snips.registerIntentAction("SwitchChannel", switchChannelActions)
 else
     Snips.registerIntentAction("ADoSnipsOnOffDE", switchOnOffActions)
+    Snips.registerIntentAction("SwitchChannel", switchChannelActions)
 end
