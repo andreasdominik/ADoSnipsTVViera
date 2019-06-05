@@ -30,6 +30,10 @@ function switchTVChannel(ip, ch)
     end
 end
 
+function muteTV(ip)
+
+    runVieraCmd(ip, )
+
 
 function runVieraCmd(ip, cmd)
 

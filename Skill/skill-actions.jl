@@ -70,15 +70,22 @@ function switchOnOffActions(topic, payload)
 
             if channelNo > 0
                 sleep(2)
-                switchChannel(ip, channelNo)
+                switchTVChannel(ip, channelNo)
             end
         else
             Snips.publishEndSession(:switchoff)
             switchTVoff(tvIP, tvGPIO)
         end
+
+
     elseif device == "sound"
-        Snips.publishEndSession(:ok)
-        muteTV(tvIP)
+        if onOrOff == "ON"
+            Snips.publishEndSession(:unmute)
+            unmuteTV(tvIP)
+        else
+            Snips.publishEndSession(:mute)
+            muteTV(tvIP)
+        end
     end
 
     return false
