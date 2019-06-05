@@ -42,6 +42,7 @@ function switchOnOffActions(topic, payload)
     end
 
 
+
     # get from config.ini:
     #
     tvIP = Snips.getConfig(INI_TV_IP)
@@ -57,9 +58,20 @@ function switchOnOffActions(topic, payload)
 
 
     if device == "TV"
+        channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
+        if channel == nothing
+            channel = "unknown"
+        end
+        channelNo = channelToNumber(channel)
+
         if onOrOff == "ON"
             Snips.publishEndSession(:switchon)
             switchTVon(tvIP, tvGPIO)
+
+            if channelNo > 0
+                sleep(2)
+                switchChannel(ip, channelNo)
+            end
         else
             Snips.publishEndSession(:switchoff)
             switchTVoff(tvIP, tvGPIO)
@@ -70,4 +82,20 @@ function switchOnOffActions(topic, payload)
     end
 
     return false
+end
+
+
+function channelToNumer(channel)
+
+    channels = getConfig(INI_CHANNEL)
+    if channels == nothing
+        return 0
+    end
+
+    chNumber = findfirst(isequal(channel), channels)
+    if chNumber == nothing
+        return 0
+    end
+
+    return chNumber
 end

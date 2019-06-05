@@ -22,6 +22,15 @@ function switchTVoff(ip, gpio)
 end
 
 
+function switchTVChannel(ip, ch)
+
+    for i in reverse(digits(channel))
+        runVieraCmd(ip, i)
+        sleep(0.5)
+    end
+end
+
+
 function runVieraCmd(ip, cmd)
 
     shellcmd = `$VIERA_SH $ip $cmd`

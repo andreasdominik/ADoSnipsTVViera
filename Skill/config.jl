@@ -24,23 +24,21 @@ Snips.setModule(@__MODULE__)
 const SLOT_ROOM = "room"
 const SLOT_DEVICE = "device"
 const SLOT_ON_OFF = "on_or_off"
+const SLOT_CHANNEL = "channel"
+
 # name of entry in config.ini:
 #
 const INI_TV_IP = :tv_ip
 const INI_TV_GPIO = :tv_gpio
+const INI_CHANNEL = :tv_channel
 
 #
 # link between actions and intents:
 # intent is linked to action{Funktion}
-# the action is only matched, if
-#   * intentname matches and
-#   * if the siteId matches, if site is  defined in config.ini
-#     (such as: "switch TV in room abc").
-#
 # Language-dependent settings:
 #
 if LANG == "de"
-    Snips.registerIntentAction("pleaseRepeatDE", templateAction)
+    Snips.registerIntentAction("ADoSnipsOnOffDE", switchOnOffActions)
 else
-    Snips.registerIntentAction("pleaseRepeatEN", templateAction)
+    Snips.registerIntentAction("ADoSnipsOnOffDE", switchOnOffActions)
 end
