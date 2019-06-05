@@ -11,35 +11,63 @@
 #   as Symbols (Julia-style)
 #
 """
-function templateAction(topic, payload)
+function switchOnOffActions(topic, payload)
 
-    Dummyaction for the template.
+    Switch on the TV set by power on a GPIU-controlled switch.
 """
-function templateAction(topic, payload)
+function switchOnOffActions(topic, payload)
 
     # log:
-    println("[ADoSnipsTemplate]: action templateAction() started.")
+    println("[ADoSnipsTVViera]: action switchOnOffActions() started.")
 
-    # get my name from config.ini:
+    # ignore, if not responsible (other device):
     #
-    myName = Snips.getConfig(INI_MY_NAME)
-    if myName == nothing
-        Snips.publishEndSession(:noname)
+    device = Snips.extractSlotValue(payload, SLOT_DEVICE)
+    if device == nothing || !( device in ["TV", "sound"] )
         return false
     end
 
-    # get the word to repeat from slot:
+
+    # get other slots and test if OK:
     #
-    word = Snips.extractSlotValue(payload, SLOT_WORD)
-    if word == nothing
+    room = Snips.extractSlotValue(payload, SLOT_ROOM)
+    if room == nothing
+        room = Snips.getSiteId()
+    end
+
+    onOrOff = Snips.extractSlotValue(payload, SLOT_ON_OFF)
+    if onOrOff == nothing or !(onOrOff in ["ON", "OFF"])
         Snips.publishEndSession(:dunno)
         return true
     end
 
-    # say who you are:
+
+    # get from config.ini:
     #
-    Snips.publishSay(:bravo)
-    Snips.publishEndSession("""$(Snips.langText(:iam)) $myName.
-                            $(Snips.langText(:isay)) $word""")
-    return true
+    tvIP = Snips.getConfig(INI_TV_IP)
+    if tvIP == nothing
+        Snips.publishEndSession(:noip)
+        return false
+    end
+    tvGPIO = Snips.getConfig(INI_TV_GPIO)
+    if tvGPIO == nothing
+        Snips.publishEndSession(:nogpio)
+        return false
+    end
+
+
+    if device == "TV"
+        if onOrOff == "ON"
+            Snips.publishEndSession(:switchon)
+            switchTVon(tvIP, tvGPIO)
+        else
+            Snips.publishEndSession(:switchoff)
+            switchTVoff(tvIP, tvGPIO)
+        end
+    elseif device == "sound"
+        Snips.publishEndSession(:ok)
+        muteTV(tvIP)
+    end
+
+    return false
 end
