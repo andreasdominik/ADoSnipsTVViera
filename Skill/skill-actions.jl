@@ -92,6 +92,28 @@ function switchOnOffActions(topic, payload)
 end
 
 
+
+function switchChannelAction(topic, payload)
+
+    channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
+    if channel == nothing
+        channel = "unknown"
+    end
+    channelNo = channelToNumber(channel)
+
+    if channelNo > 1
+        Snips.publishEndSession("$(Snips.langText(:channel)) $channel")
+        switchTVChannel(tvIP, channelNo)
+    else
+        Snips.publishEndSession(:error_channel)
+    end
+
+    return true
+end
+
+
+
+
 function channelToNumer(channel)
 
     channels = getConfig(INI_CHANNEL)
