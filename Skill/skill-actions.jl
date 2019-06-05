@@ -114,6 +114,44 @@ end
 
 
 
+function pauseAction(topic, payload)
+
+    pause = Snips.extractSlotValue(payload, SLOT_PAUSE)
+    if pause == nothing
+        publishEndSession(:dunno)
+        return true
+    elseif pause == "pause"
+        publishEndSession(:ok)
+        pauseResumeTV(ip)
+        return false
+    else
+        publishEndSession(:dunno)
+        return true
+    end
+end
+
+
+
+
+function pauseAction(topic, payload)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function channelToNumer(channel)
 
     channels = getConfig(INI_CHANNEL)

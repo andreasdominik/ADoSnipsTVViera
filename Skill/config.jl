@@ -25,6 +25,7 @@ const SLOT_ROOM = "room"
 const SLOT_DEVICE = "device"
 const SLOT_ON_OFF = "on_or_off"
 const SLOT_CHANNEL = "channel"
+const SLOT_PAUSE = "tvPauseCmd"  # only valid value: pause
 
 # name of entry in config.ini:
 #
@@ -40,7 +41,9 @@ const INI_CHANNEL = :tv_channel
 if LANG == "de"
     Snips.registerIntentAction("ADoSnipsOnOffDE", switchOnOffActions)
     Snips.registerIntentAction("SwitchChannel", switchChannelAction)
+    Snips.registerIntentAction("VieraPauseDE", pauseAction)
 else
     Snips.registerIntentAction("ADoSnipsOnOffDE", switchOnOffActions)
     Snips.registerIntentAction("SwitchChannel", switchChannelAction)
+    Snips.registerIntentAction("VieraPauseDE", pauseAction)
 end

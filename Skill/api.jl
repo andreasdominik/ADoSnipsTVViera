@@ -32,7 +32,23 @@ end
 
 function muteTV(ip)
 
-    runVieraCmd(ip, )
+    runVieraCmd(ip, "mute")
+end
+
+
+function umuteTV(ip)
+
+    runVieraCmd(ip, "unMute")
+end
+
+
+function pauseResumeTV(ip)
+
+    runVieraCmd(ip, "pause")
+end
+
+
+
 
 
 function runVieraCmd(ip, cmd)
