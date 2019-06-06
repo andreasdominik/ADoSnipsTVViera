@@ -32,6 +32,8 @@ const SLOT_PAUSE = "tvPauseCmd"  # only valid value: pause
 const INI_TV_IP = :tv_ip
 const INI_TV_GPIO = :tv_gpio
 const INI_CHANNEL = :tv_channel
+const INI_ON_MODE = :on_mode   # one of "DLNA", "GPIU" or "KODI"
+const DEFAULT_ON_MODE = "DLNA"
 
 #
 # link between actions and intents:

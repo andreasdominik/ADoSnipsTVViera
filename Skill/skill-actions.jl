@@ -66,7 +66,20 @@ function switchOnOffActions(topic, payload)
 
         if onOrOff == "ON"
             Snips.publishEndSession(:switchon)
-            switchTVon(tvIP, tvGPIO)
+
+            # get switch-on mode from ini:
+            #
+            onMode = Snips.getConfig(INI_ON_MODE)
+            if onMode == nothing
+                onMode = DEFAULT_ON_MODE
+            end
+            if onMode == GPIO
+                switchTVonGPIO(tvIP, tvGPIO)
+            elseif onMode = KODI
+                switchTVonKODI(ip, tvGPIO)
+            else
+                switchTVonDLNA(ip)
+            end
 
             if channelNo > 0
                 sleep(2)
