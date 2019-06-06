@@ -36,7 +36,7 @@ function switchOnOffActions(topic, payload)
     end
 
     onOrOff = Snips.extractSlotValue(payload, SLOT_ON_OFF)
-    if onOrOff == nothing or !(onOrOff in ["ON", "OFF"])
+    if onOrOff == nothing || !(onOrOff in ["ON", "OFF"])
         Snips.publishEndSession(:dunno)
         return true
     end
@@ -73,12 +73,12 @@ function switchOnOffActions(topic, payload)
             if onMode == nothing
                 onMode = DEFAULT_ON_MODE
             end
-            if onMode == GPIO
+            if onMode == "gpio"
                 switchTVonGPIO(tvIP, tvGPIO)
-            elseif onMode = KODI
-                switchTVonKODI(ip, tvGPIO)
+            elseif onMode == "kodi"
+                switchTVonKODI(tvIP, tvGPIO)
             else
-                switchTVonDLNA(ip)
+                switchTVonDLNA(tvIP)
             end
 
             if channelNo > 0
@@ -145,8 +145,24 @@ end
 
 
 
+function channelToNumber(channel)
 
-function pauseAction(topic, payload)
+    channels = Snips.getConfig(INI_CHANNELS)
+    if ! (channels isa AbstractArray)
+        return 0
+    end
+
+    channelNo = findfirst(isequal(channel), channels)
+
+    if channelNo == nothing
+        return 0
+    end
+
+    return channelNo
+end
+
+
+
 
 
 

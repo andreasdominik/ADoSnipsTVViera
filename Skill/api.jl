@@ -41,7 +41,7 @@ Switch the TV on via power on of a connected KODI/libreElec device.
 function switchTVonKODI(ip, gpio)
 
     Snips.setGPIO(gpio, :on)
-    sleep(5)
+    sleep(10)
     runVieraCmd(ip, "TV")
 end
 
@@ -86,5 +86,6 @@ end
 function runVieraCmd(ip, cmd)
 
     shellcmd = `$VIERA_SH $ip $cmd`
-    snips.tryrun(shellcmd, wait = true)
+    println("VIERA command: $shellcmd")
+    Snips.tryrun(shellcmd, wait = true)
 end
