@@ -19,10 +19,17 @@ predefining the phrases to be spoken in the target language (see
 framework documentation).
 
 The project includes a shell script for remote control of a TV via
-uPnP/DLNA. The script allows for submitting almost all commands present on a
+uPnP/DLNA and CEC ("on" is implementd via CEC and teh HDMI between the TV and RPi,
+because my old Panasonic does not support switch-on via uPnP).
+The script allows for submitting almost all commands present on a
 IR-remote.
 
+## config.ini
 
+The list of TV channels must correspond with the list of values in the
+slot `TV_channel` of the intents (ON_OFF and SwitchChannel). The sequence
+determins the channel number; i.e. must correspond with the channels on
+the TV set.
 
 # Julia
 

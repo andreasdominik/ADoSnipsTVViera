@@ -41,7 +41,7 @@ function muteTV(ip)
 end
 
 
-function umuteTV(ip)
+function unmuteTV(ip)
 
     runVieraCmd(ip, "unMute")
 end

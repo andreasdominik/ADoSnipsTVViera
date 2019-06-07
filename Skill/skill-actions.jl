@@ -24,17 +24,17 @@ function switchOnOffActions(topic, payload)
     # ignore, if not responsible (other device):
     #
     device = Snips.extractSlotValue(payload, SLOT_DEVICE)
-    if device == nothing || !( device in ["TV", "sound"] )
+    if device == nothing || !( device in ["TV", "volume"] )
         return false
     end
 
 
-    # get other slots and test if OK:
+    # ROOMs are not yet supported -> only ONE TV  in assistent possible.
     #
-    room = Snips.extractSlotValue(payload, SLOT_ROOM)
-    if room == nothing
-        room = Snips.getSiteId()
-    end
+    # room = Snips.extractSlotValue(payload, SLOT_ROOM)
+    # if room == nothing
+    #     room = Snips.getSiteId()
+    # end
 
     onOrOff = Snips.extractSlotValue(payload, SLOT_ON_OFF)
     if onOrOff == nothing || !(onOrOff in ["ON", "OFF"])
@@ -42,6 +42,7 @@ function switchOnOffActions(topic, payload)
         return true
     end
 
+    # println(">>> $onOrOff, $device")
     if device == "TV"
         # check, if all config.ini entries are in correct:
         #
