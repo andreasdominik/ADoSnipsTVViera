@@ -11,6 +11,7 @@
 if [[ ($1 == "-h") ]] || [[ ($# -lt 1) ]] ; then
   cat <<ENDHELP
   Remote control of Panasonic Viera TVs via uPnP.
+  wakeup is implemented using CEC.
 
   usage: viera.sh <--debug> 192.168.0.1 command
 
@@ -39,6 +40,7 @@ if [[ ($1 == "-h") ]] || [[ ($# -lt 1) ]] ; then
     epg
     info
   Pause/resume:
+    play
     pause
   Only poweroff possible by DLNA (because TV is not listening in standby mode):
   wakeup/poweron is implemented via CEC.
@@ -188,6 +190,10 @@ case "$CMD" in
   info)
     ACTION="X_SendKey"
     COMMAND="<X_KeyEvent>NRC_INFO-ONOFF</X_KeyEvent>"
+    ;;
+  play)
+    ACTION="X_SendKey"
+    COMMAND="<X_KeyEvent>NRC_PLAY-ONOFF</X_KeyEvent>"
     ;;
   pause)
     ACTION="X_SendKey"

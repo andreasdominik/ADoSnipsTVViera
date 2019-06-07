@@ -11,13 +11,14 @@
 #   as Symbols (Julia-style)
 #
 """
-function switchOnOffActions(topic, payload)
+    switchOnOffActions(topic, payload)
 
-    Switch on the TV set by power on a GPIU-controlled switch.
+Switch on the TV set with teh vierra-script.
 """
 function switchOnOffActions(topic, payload)
 
     # log:
+    #
     println("[ADoSnipsTVViera]: action switchOnOffActions() started.")
 
     # ignore, if not responsible (other device):
@@ -82,6 +83,10 @@ end
 
 function switchChannelAction(topic, payload)
 
+    # log:
+    #
+    println("[ADoSnipsTVViera]: action switchChannelAction() started.")
+
     channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
     channelNo = channelToNumber(channel)
 
@@ -98,19 +103,31 @@ end
 
 
 
+"""
+    pauseAction(topic, payload)
 
+Toggle between play and pause.
+"""
 function pauseAction(topic, payload)
 
+    # log:
+    #
+    println("[ADoSnipsTVViera]: action pauseAction() started.")
+
     pause = Snips.extractSlotValue(payload, SLOT_PAUSE)
-    if pause == nothing
-        publishEndSession(:dunno)
-        return true
-    elseif pause == "pause"
-        publishEndSession(:ok)
-        pauseResumeTV(ip)
-        return false
+    if Snips.isConfigValid(INI_TV_IP) && pause != nothing
+
+        if pause = "play"
+            publishEndSession(:ok)
+            pausePlayTV(Snips.getConfig(INI_TV_IP))
+            return false
+        else # pause == "pause"
+            publishEndSession(:ok)
+            pausePauseTV(Snips.getConfig(INI_TV_IP))
+            return false
+        end
     else
-        publishEndSession(:dunno)
+        publishEndSession(::dunno)
         return true
     end
 end
@@ -128,10 +145,7 @@ function channelToNumber(channel)
         return 0
     end
 
-    println(">>> channels: $channels")
-    println(">>> channel:  $channel")
     channelNo = findfirst(isequal(channel), channels)
-    println(">>> channelNo:  $channelNo")
 
     if channelNo == nothing
         return 0

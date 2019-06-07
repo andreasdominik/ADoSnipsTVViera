@@ -25,7 +25,7 @@ const SLOT_ROOM = "room"
 const SLOT_DEVICE = "device"
 const SLOT_ON_OFF = "on_or_off"
 const SLOT_CHANNEL = "TV_channel"
-const SLOT_PAUSE = "tvPauseCmd"  # only valid value: pause
+const SLOT_PAUSE = "tvPauseCmd"  # only valid value: pause, play
 
 # name of entry in config.ini:
 #

@@ -47,9 +47,15 @@ function umuteTV(ip)
 end
 
 
-function pauseResumeTV(ip)
+function pausePauseTV(ip)
 
     runVieraCmd(ip, "pause")
+end
+
+
+function pausePlayTV(ip)
+
+    runVieraCmd(ip, "play")
 end
 
 
