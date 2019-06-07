@@ -41,63 +41,37 @@ function switchOnOffActions(topic, payload)
         return true
     end
 
-
-
-    # get from config.ini:
-    #
-    tvIP = Snips.getConfig(INI_TV_IP)
-    if tvIP == nothing
-        Snips.publishEndSession(:noip)
-        return false
-    end
-    tvGPIO = Snips.getConfig(INI_TV_GPIO)
-    if tvGPIO == nothing
-        Snips.publishEndSession(:nogpio)
-        return false
-    end
-
-
     if device == "TV"
+        # check, if all config.ini entries are in correct:
+        #
+        Snips.isConfigValid(INI_TV_IP) || return true
+
         channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
-        if channel == nothing
-            channel = "unknown"
-        end
         channelNo = channelToNumber(channel)
 
         if onOrOff == "ON"
             Snips.publishEndSession(:switchon)
-
-            # get switch-on mode from ini:
-            #
-            onMode = Snips.getConfig(INI_ON_MODE)
-            if onMode == nothing
-                onMode = DEFAULT_ON_MODE
-            end
-            if onMode == "gpio"
-                switchTVonGPIO(tvIP, tvGPIO)
-            elseif onMode == "kodi"
-                switchTVonKODI(tvIP, tvGPIO)
-            else
-                switchTVonDLNA(tvIP)
-            end
+            switchTVon(Snips.getConfig(INI_TV_IP))
 
             if channelNo > 0
                 sleep(2)
-                switchTVChannel(ip, channelNo)
+                switchTVChannel(Snips.getConfig(INI_TV_IP), channelNo)
             end
         else
             Snips.publishEndSession(:switchoff)
-            switchTVoff(tvIP, tvGPIO)
+            switchTVoff(Snips.getConfig(INI_TV_IP))
         end
 
 
-    elseif device == "sound"
+    elseif device == "volume"
+
+        Snips.isConfigValid(INI_TV_IP) || return true
         if onOrOff == "ON"
             Snips.publishEndSession(:unmute)
-            unmuteTV(tvIP)
+            unmuteTV(Snips.getConfig(INI_TV_IP))
         else
             Snips.publishEndSession(:mute)
-            muteTV(tvIP)
+            muteTV(Snips.getConfig(INI_TV_IP))
         end
     end
 
@@ -109,14 +83,12 @@ end
 function switchChannelAction(topic, payload)
 
     channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
-    if channel == nothing
-        channel = "unknown"
-    end
     channelNo = channelToNumber(channel)
 
-    if channelNo > 1
+    if channelNo > 1 && Snips.isConfigValid(INI_TV_IP)
+
         Snips.publishEndSession("$(Snips.langText(:channel)) $channel")
-        switchTVChannel(tvIP, channelNo)
+        switchTVChannel(Snips.getConfig(INI_TV_IP), channelNo)
     else
         Snips.publishEndSession(:error_channel)
     end
@@ -152,7 +124,14 @@ function channelToNumber(channel)
         return 0
     end
 
+    if channel == nothing || channel == "unknown" || length(channel) < 1
+        return 0
+    end
+
+    println(">>> channels: $channels")
+    println(">>> channel:  $channel")
     channelNo = findfirst(isequal(channel), channels)
+    println(">>> channelNo:  $channelNo")
 
     if channelNo == nothing
         return 0

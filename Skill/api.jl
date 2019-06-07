@@ -7,56 +7,29 @@ VIERA_SH = "$(Snips.getAppDir())/Skill/viera.sh"
 
 
 """
-    switchTVonGPIO(ip, gpio)
-
-Switch the TV on via power on by GPIO
-"""
-function switchTVonGPIO(ip, gpio)
-
-    Snips.setGPIO(gpio, :on)
-    sleep(4)
-    runVieraCmd(ip, "TV")
-end
-
-
-
-"""
-    switchTVonDLNA(ip)
+    switchTVon(ip)
 
 Switch the TV on via a DLNA/uPnP command
 (only possible, if the DLNA-server of the TV is running in standby)
+or CEC
 """
-function switchTVonDLNA(ip)
+function switchTVon(ip)
 
-    runVieraCmd(ip, "powerOff")
-    runVieraCmd(ip, "TV")
-end
-
-
-"""
-    switchTVonKODI(ip, gpio)
-
-Switch the TV on via power on of a connected KODI/libreElec device.
-"""
-function switchTVonKODI(ip, gpio)
-
-    Snips.setGPIO(gpio, :on)
+    runVieraCmd(ip, "wakeup")
     sleep(10)
     runVieraCmd(ip, "TV")
 end
 
 
-function switchTVoff(ip, gpio)
+function switchTVoff(ip)
 
-    runVieraCmd(ip, "powerOff")
-    sleep(4)
-    Snips.setGPIO(gpio, :off)
+    runVieraCmd(ip, "standby")
 end
 
 
 function switchTVChannel(ip, ch)
 
-    for i in reverse(digits(channel))
+    for i in reverse(digits(ch))
         runVieraCmd(ip, i)
         sleep(0.5)
     end

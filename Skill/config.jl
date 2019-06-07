@@ -24,7 +24,7 @@ Snips.setModule(@__MODULE__)
 const SLOT_ROOM = "room"
 const SLOT_DEVICE = "device"
 const SLOT_ON_OFF = "on_or_off"
-const SLOT_CHANNEL = "channel"
+const SLOT_CHANNEL = "TV_channel"
 const SLOT_PAUSE = "tvPauseCmd"  # only valid value: pause
 
 # name of entry in config.ini:
@@ -35,7 +35,13 @@ const INI_CHANNELS = :tv_channels
 const INI_ON_MODE = :on_mode   # one of "DLNA", "GPIU" or "KODI"
 const DEFAULT_ON_MODE = "DLNA"
 
+# init GPIO:
 #
+gpio = Snips.getConfig(INI_TV_GPIO)
+if gpio != nothing
+    Snips.exportGPIO(gpio, :out)
+end
+
 # link between actions and intents:
 # intent is linked to action{Funktion}
 # Language-dependent settings:

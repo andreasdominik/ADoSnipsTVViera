@@ -2,6 +2,9 @@
 #
 # API for HTML interface to Panasonic Viera TV.
 #
+# package cec-utils must be installed!
+# and is used for poweron from standby.
+#
 #
 # enable debugging:
 #
@@ -9,7 +12,7 @@ if [[ ($1 == "-h") ]] || [[ ($# -lt 1) ]] ; then
   cat <<ENDHELP
   Remote control of Panasonic Viera TVs via uPnP.
 
-  usage: viera.sh <--debug> command
+  usage: viera.sh <--debug> 192.168.0.1 command
 
   The following commands are supported:
   Volume control:
@@ -37,8 +40,10 @@ if [[ ($1 == "-h") ]] || [[ ($# -lt 1) ]] ; then
     info
   Pause/resume:
     pause
-  Only poweroff possible (because TV is not listening in standby mode:
-    powerOff
+  Only poweroff possible by DLNA (because TV is not listening in standby mode):
+  wakeup/poweron is implemented via CEC.
+    standby
+    wakeup
 ENDHELP
   exit 1
 fi
@@ -52,6 +57,7 @@ else
   V=""
 fi
 
+# WAKE_UP_CMD="echo 'on 0' | cec-client -s -d 1"
 TV_IP=$1
 CMD=$2
 VALUE=$3
@@ -76,6 +82,10 @@ ACTION="X_SendKey"
 # switch commands (render or command mode):
 #
 case "$CMD" in
+  wakeup)
+    echo "on 0" | cec-client -s -d 1
+    exit $?
+    ;;
   listPresets)
     ACTION="ListPresets"
     COMMAND="<InstanceID>0</InstanceID><Channel>Master</Channel>"
@@ -183,7 +193,7 @@ case "$CMD" in
     ACTION="X_SendKey"
     COMMAND="<X_KeyEvent>NRC_PAUSE-ONOFF</X_KeyEvent>"
     ;;
-  powerOff)
+  standby)
     ACTION="X_SendKey"
     COMMAND="<X_KeyEvent>NRC_POWER-ONOFF</X_KeyEvent>"
     ;;
