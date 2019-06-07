@@ -63,9 +63,7 @@ function switchOnOffActions(topic, payload)
             switchTVoff(Snips.getConfig(INI_TV_IP))
         end
 
-
     elseif device == "volume"
-
         Snips.isConfigValid(INI_TV_IP) || return true
         if onOrOff == "ON"
             Snips.publishEndSession(:unmute)
@@ -88,6 +86,7 @@ function switchChannelAction(topic, payload)
     println("[ADoSnipsTVViera]: action switchChannelAction() started.")
 
     channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
+    # println(">>> Slot: $SLOT_CHANNEL, $channel")
     channelNo = channelToNumber(channel)
 
     if channelNo > 1 && Snips.isConfigValid(INI_TV_IP)
@@ -115,19 +114,20 @@ function pauseAction(topic, payload)
     println("[ADoSnipsTVViera]: action pauseAction() started.")
 
     pause = Snips.extractSlotValue(payload, SLOT_PAUSE)
-    if Snips.isConfigValid(INI_TV_IP) && pause != nothing
+    if Snips.isConfigValid(INI_TV_IP) && pause != nothing &&
+        pause in ["play", "pause"]
 
-        if pause = "play"
-            publishEndSession(:ok)
+        if pause == "play"
+            Snips.publishEndSession(:ok)
             pausePlayTV(Snips.getConfig(INI_TV_IP))
             return false
         else # pause == "pause"
-            publishEndSession(:ok)
+            Snips.publishEndSession(:ok)
             pausePauseTV(Snips.getConfig(INI_TV_IP))
             return false
         end
     else
-        publishEndSession(::dunno)
+        Snips.publishEndSession(:dunno)
         return true
     end
 end
