@@ -24,6 +24,7 @@ Snips.setAppName(APP_NAME)
 
 include("api.jl")
 include("skill-actions.jl")
+include("trigger-actions.jl")
 include("languages.jl")
 include("config.jl")
 include("exported.jl")

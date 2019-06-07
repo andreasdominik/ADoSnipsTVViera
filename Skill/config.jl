@@ -50,8 +50,10 @@ if LANG == "de"
     Snips.registerIntentAction("ADoSnipsOnOffDE", switchOnOffActions)
     Snips.registerIntentAction("SwitchChannel", switchChannelAction)
     Snips.registerIntentAction("VieraPauseDE", pauseAction)
+    Snips.registerTriggerAction("ADoSnipsTVViera", triggerTVVieraAction)
 else
     Snips.registerIntentAction("ADoSnipsOnOffDE", switchOnOffActions)
     Snips.registerIntentAction("SwitchChannel", switchChannelAction)
     Snips.registerIntentAction("VieraPauseDE", pauseAction)
+    Snips.registerTriggerAction("ADoSnipsTVViera", triggerTVVieraAction)
 end

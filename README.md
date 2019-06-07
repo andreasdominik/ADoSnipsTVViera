@@ -19,7 +19,7 @@ predefining the phrases to be spoken in the target language (see
 framework documentation).
 
 The project includes a shell script for remote control of a TV via
-uPnP/DLNA and CEC ("on" is implementd via CEC and teh HDMI between the TV and RPi,
+uPnP/DLNA and CEC ("on" is implementd via CEC and the HDMI between the TV and RPi,
 because my old Panasonic does not support switch-on via uPnP).
 The script allows for submitting almost all commands present on a
 IR-remote.

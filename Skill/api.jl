@@ -65,6 +65,6 @@ end
 function runVieraCmd(ip, cmd)
 
     shellcmd = `$VIERA_SH $ip $cmd`
-    println("VIERA command: $shellcmd")
+    println("[ADoSnipsTVViera]: VIERA API command: $shellcmd")
     Snips.tryrun(shellcmd, wait = true)
 end
