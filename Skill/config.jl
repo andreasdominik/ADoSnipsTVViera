@@ -29,11 +29,12 @@ const SLOT_PAUSE = "tvPauseCmd"  # only valid value: pause, play
 
 # name of entry in config.ini:
 #
-const INI_TV_IP = :tv_ip
-const INI_TV_GPIO = :tv_gpio
-const INI_CHANNELS = :tv_channels
-const INI_ON_MODE = :on_mode   # one of "DLNA", "GPIU" or "KODI"
-const DEFAULT_ON_MODE = "DLNA"
+const INI_TV_LIST= :tv_sets
+const INI_TV_ROOM = "room"
+const INI_TV_IP = "ip"
+const INI_CHANNELS = "channels"
+const INI_ON_MODE = "on_mode"   # one of "upnp", "cec"
+const DEFAULT_ON_MODE = "upnp"
 
 # init GPIO:
 #

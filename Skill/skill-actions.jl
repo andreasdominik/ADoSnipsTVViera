@@ -29,12 +29,12 @@ function switchOnOffActions(topic, payload)
     end
 
 
-    # ROOMs are not yet supported -> only ONE TV  in assistent possible.
+    # ON/OFF possible for all TVs in all rooms:
     #
-    # room = Snips.extractSlotValue(payload, SLOT_ROOM)
-    # if room == nothing
-    #     room = Snips.getSiteId()
-    # end
+    room = Snips.extractSlotValue(payload, SLOT_ROOM)
+    if room == nothing
+        room = Snips.getSiteId()
+    end
 
     onOrOff = Snips.extractSlotValue(payload, SLOT_ON_OFF)
     if onOrOff == nothing || !(onOrOff in ["ON", "OFF"])
@@ -42,36 +42,41 @@ function switchOnOffActions(topic, payload)
         return true
     end
 
+    # continue only, if a tv in room:
+    #
+    tv = getMatchedTv(room)
+    if tv == nothing
+        Snips.publishEndSession(:no_tv_in_room)
+        return true
+    end
+
     # println(">>> $onOrOff, $device")
     if device == "TV"
         # check, if all config.ini entries are in correct:
         #
-        Snips.isConfigValid(INI_TV_IP) || return true
-
         channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
-        channelNo = channelToNumber(channel)
+        channelNo = channelToNumber(channel, tv[:channels])
 
         if onOrOff == "ON"
             Snips.publishEndSession(:switchon)
-            switchTVon(Snips.getConfig(INI_TV_IP))
+            switchTVon(tv[:ip], tv[:on_mode])
 
             if channelNo > 0
                 sleep(2)
-                switchTVChannel(Snips.getConfig(INI_TV_IP), channelNo)
+                switchTVChannel(tv[:ip], channelNo)
             end
         else
             Snips.publishEndSession(:switchoff)
-            switchTVoff(Snips.getConfig(INI_TV_IP))
+            switchTVoff(tv[:ip])
         end
 
     elseif device == "volume"
-        Snips.isConfigValid(INI_TV_IP) || return true
         if onOrOff == "ON"
             Snips.publishEndSession(:unmute)
-            unmuteTV(Snips.getConfig(INI_TV_IP))
+            unmuteTV(tv[:ip])
         else
             Snips.publishEndSession(:mute)
-            muteTV(Snips.getConfig(INI_TV_IP))
+            muteTV(tv[:ip])
         end
     end
 
@@ -134,13 +139,34 @@ function pauseAction(topic, payload)
 end
 
 
+# return a Dict with params of matched TV, or nothing, if something is wrong!
+#
+function getMatchedTv(room)
 
-function channelToNumber(channel)
+    tv = nothing
+    isConfigValid(INI_TV_LIST) || return nothing
+    for tvName in getConfig(INI_TV_LIST)
+        tvRoomName = "$(tv)_$INI_TV_ROOM"
+        isConfigValid(tvRoomName) || return nothing
+        if getConfig(tvRoomName) == room
+            isConfigValid("$(tv)_$INI_TV_IP") || return nothing
+            isConfigValid("$(tv)_$INI_ON_MODE") || return nothing
+            getConfig("$(tv)_$INI_CHANNELS") isa AbstractArray || return nothing
 
-    channels = Snips.getConfig(INI_CHANNELS)
-    if ! (channels isa AbstractArray)
-        return 0
+            tv = Dict(:id => tvName,
+                      :room => room,
+                      :ip => getConfig("$(tv)_$INI_TV_IP"),
+                      :on_mode => getConfig("$(tv)_$INI_ON_MODE")
+                      :channels => getConfig("$(tv)_$INI_CHANNELS"))
+        end
     end
+    return tv
+end
+
+
+
+
+function channelToNumber(channel, channels)
 
     if channel == nothing || channel == "unknown" || length(channel) < 1
         return 0
