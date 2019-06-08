@@ -114,9 +114,12 @@ function pauseAction(topic, payload)
     #
     println("[ADoSnipsTVViera]: action pauseAction() started.")
 
+    tv = getMatchedTv(payload)
+    Snips.isValidOrEnd(tv, :no_tv_in_room) || return true
+
     pause = Snips.extractSlotValue(payload, SLOT_PAUSE)
-    if Snips.isConfigValid(INI_TV_IP) && pause != nothing &&
-        pause in ["play", "pause"]
+
+    if pause != nothing && pause in ["play", "pause"]
 
         if pause == "play"
             Snips.publishEndSession(:ok)
