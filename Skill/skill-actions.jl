@@ -28,14 +28,6 @@ function switchOnOffActions(topic, payload)
         return false
     end
 
-
-    # ON/OFF possible for all TVs in all rooms:
-    #
-    room = Snips.extractSlotValue(payload, SLOT_ROOM)
-    if room == nothing
-        room = Snips.getSiteId()
-    end
-
     onOrOff = Snips.extractSlotValue(payload, SLOT_ON_OFF)
     if onOrOff == nothing || !(onOrOff in ["ON", "OFF"])
         Snips.publishEndSession(:dunno)
@@ -44,11 +36,8 @@ function switchOnOffActions(topic, payload)
 
     # continue only, if a tv in room:
     #
-    tv = getMatchedTv(room)
-    if tv == nothing
-        Snips.publishEndSession(:no_tv_in_room)
-        return true
-    end
+    tv = getMatchedTv(payload)
+    Snips.isValidOrEnd(tv, :no_tv_in_room) || return true
 
     # println(">>> $onOrOff, $device")
     if device == "TV"
@@ -91,14 +80,20 @@ function switchChannelAction(topic, payload)
     #
     println("[ADoSnipsTVViera]: action switchChannelAction() started.")
 
+    # continue only, if a tv in room:
+    #
+    tv = getMatchedTv(payload)
+    Snips.isValidOrEnd(tv, :no_tv_in_room) || return true
+
+    # println(">>> $onOrOff, $device")
     channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
     # println(">>> Slot: $SLOT_CHANNEL, $channel")
-    channelNo = channelToNumber(channel)
+    channelNo = channelToNumber(channel, tv[:channels])
 
-    if channelNo > 1 && Snips.isConfigValid(INI_TV_IP)
+    if channelNo > 0
 
         Snips.publishEndSession("$(Snips.langText(:channel)) $channel")
-        switchTVChannel(Snips.getConfig(INI_TV_IP), channelNo)
+        switchTVChannel(tv[:ip], channelNo)
     else
         Snips.publishEndSession(:error_channel)
     end
@@ -141,9 +136,15 @@ end
 
 # return a Dict with params of matched TV, or nothing, if something is wrong!
 #
-function getMatchedTv(room)
+function getMatchedTv(payload)
 
     tv = nothing
+
+    room = Snips.extractSlotValue(payload, SLOT_ROOM)
+    if room == nothing
+        room = Snips.getSiteId()
+    end
+
     isConfigValid(INI_TV_LIST) || return nothing
     for tvName in getConfig(INI_TV_LIST)
         tvRoomName = "$(tv)_$INI_TV_ROOM"
