@@ -59,6 +59,8 @@ else
   V=""
 fi
 
+CURL_ARGS=""
+
 # WAKE_UP_CMD="echo 'on 0' | cec-client -s -d 1"
 TV_IP=$1
 CMD=$2
@@ -99,6 +101,7 @@ case "$CMD" in
     COMMAND="<InstanceID>0</InstanceID><Channel>Master</Channel>"
     URL=$URL_RENDER
     URN=$URN_RENDER
+    CURL_ARGS="--connect-timeout 1"
     ;;
   setVolume)
     ACTION="SetVolume"
@@ -236,7 +239,7 @@ echo $HEADER_2
 echo $HEADER_3
 
 
-curl ${V} -X POST -d "$CONTENT" http://${TV_IP}:${TV_PORT}$URL \
+curl ${V} ${CURL_ARGS} -X POST -d "$CONTENT" http://${TV_IP}:${TV_PORT}$URL \
     --header "$HEADER_1" --header "$HEADER_2" --header "$HEADER_3"
 
 exit $?  # return curl exit status
