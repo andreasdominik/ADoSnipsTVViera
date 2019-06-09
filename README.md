@@ -21,7 +21,7 @@ framework documentation).
 The project includes a shell script for remote control of a TV via
 uPnP/DLNA and CEC ("on" is implementd via CEC and the HDMI between the TV and RPi,
 because my old Panasonic does not support switch-on via uPnP).
-The script allows for submitting almost all commands present on a
+The script allows for submitting almost all commands present on an
 IR-remote.
 
 ## config.ini
@@ -76,12 +76,12 @@ the TV set.
 
 ## Trigger
 
-The app can be remote-controlled by avtivating a trigger with a
-MQTT message.
-The message mut sbe published at the same MQTT host which is used
+The app can be remote-controlled by activating a trigger via
+MQTT.
+The message must be published at the same MQTT host which is used
 by Snips.
-The required topic is `qnd/trigger/andreasdominik:ADoSnipsTVViera`.
-The payload something like:
+The required topic is `qnd/trigger/andreasdominik:ADoSnipsTVViera`,
+the payload is something like:
 
 ```
 {
