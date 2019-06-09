@@ -148,20 +148,26 @@ function getMatchedTv(payload)
         room = Snips.getSiteId()
     end
 
-    isConfigValid(INI_TV_LIST) || return nothing
-    for tvName in getConfig(INI_TV_LIST)
-        tvRoomName = "$(tv)_$INI_TV_ROOM"
-        isConfigValid(tvRoomName) || return nothing
-        if getConfig(tvRoomName) == room
-            isConfigValid("$(tv)_$INI_TV_IP") || return nothing
-            isConfigValid("$(tv)_$INI_ON_MODE") || return nothing
-            getConfig("$(tv)_$INI_CHANNELS") isa AbstractArray || return nothing
+    Snips.isConfigValid(INI_TV_LIST) || return nothing
+    if Snips.getConfig(INI_TV_LIST) isa AbstractString
+        tvs = [Snips.getConfig(INI_TV_LIST)]
+    else
+        tvs = Snips.getConfig(INI_TV_LIST)
+    end
+
+    for tvName in tvs
+        tvRoomName = "$(tvName)_$INI_TV_ROOM"
+        Snips.isConfigValid(tvRoomName) || return nothing
+        if Snips.getConfig(tvRoomName) == room
+            Snips.isConfigValid("$(tvName)_$INI_TV_IP") || return nothing
+            Snips.isConfigValid("$(tvName)_$INI_ON_MODE") || return nothing
+            Snips.getConfig("$(tvName)_$INI_CHANNELS") isa AbstractArray || return nothing
 
             tv = Dict(:id => tvName,
                       :room => room,
-                      :ip => getConfig("$(tv)_$INI_TV_IP"),
-                      :on_mode => getConfig("$(tv)_$INI_ON_MODE")
-                      :channels => getConfig("$(tv)_$INI_CHANNELS"))
+                      :ip => Snips.getConfig("$(tvName)_$INI_TV_IP"),
+                      :on_mode => Snips.getConfig("$(tvName)_$INI_ON_MODE")
+                      :channels => Snips.getConfig("$(tvName)_$INI_CHANNELS"))
         end
     end
     return tv

@@ -6,14 +6,17 @@ The trigger must have the following JSON format:
       "target" : "qnd/trigger/andreasdominik:ADoSnipsTVViera",
       "origin" : "ADoSnipsScheduler",
       "sessionId": "1234567890abcdef",
+      "siteId" : "default",
       "time" : "timeString",
       "trigger" : {
         "room" : "default",
-        "device" : "viera",
+        "device" : "plasma",
         "commands" : [ "wakeup", "down", "center"],
         "delay" : 0.5
       }
     }
+
+    "device" is the unique device-ID, defined in the config.ini.
 
     Commands will be executed with the api with the
     specified delay in between.
@@ -28,19 +31,23 @@ function triggerTVVieraAction(topic, payload)
     haskey( payload, :trigger) || return false
     trigger = payload[:trigger]
 
-    # haskey(trigger, :room) || return false
+    #haskey(trigger, :room) || return false
     haskey(trigger, :device) || return false
-    trigger[:device] == "viera" || return false
+    device = trigger[:device]
+
     haskey(trigger, :commands) || return false
     trigger[:commands] isa AbstractArray || return false
-
     commands = trigger[:commands]
+
     delay = haskey(trigger, :delay) ? trigger[:delay] : 1.0
 
-    Snips.isConfigValid(INI_TV_IP) || return false
+    # get device params from config.ini:
+    #
+    Snips.isConfigValid("$(device)_$(INI_TV_IP)") || return false
+    ip = Snips.getConfig("$(device)_$(INI_TV_IP)")
 
-    for command in trigger[:commands]
-        runVieraCmd(Snips.getConfig(INI_TV_IP), command)
+    for command in commands
+        runVieraCmd(ip, command)
         sleep(delay)
     end
 

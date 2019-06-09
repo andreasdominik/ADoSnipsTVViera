@@ -34,14 +34,6 @@ const INI_TV_ROOM = "room"
 const INI_TV_IP = "ip"
 const INI_CHANNELS = "channels"
 const INI_ON_MODE = "on_mode"   # one of "upnp", "cec"
-const DEFAULT_ON_MODE = "upnp"
-
-# init GPIO:
-#
-gpio = Snips.getConfig(INI_TV_GPIO)
-if gpio != nothing
-    Snips.exportGPIO(gpio, :out)
-end
 
 # link between actions and intents:
 # intent is linked to action{Funktion}
