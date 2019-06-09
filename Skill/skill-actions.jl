@@ -37,7 +37,7 @@ function switchOnOffActions(topic, payload)
     # continue only, if a tv in room:
     #
     tv = getMatchedTv(payload)
-    Snips.isValidOrEnd(tv, :no_tv_in_room) || return true
+    Snips.isValidOrEnd(tv, errorMsg = :no_tv_in_room) || return true
 
     # println(">>> $onOrOff, $device")
     if device == "TV"
@@ -83,7 +83,7 @@ function switchChannelAction(topic, payload)
     # continue only, if a tv in room:
     #
     tv = getMatchedTv(payload)
-    Snips.isValidOrEnd(tv, :no_tv_in_room) || return true
+    Snips.isValidOrEnd(tv, errorMsg = :no_tv_in_room) || return true
 
     # println(">>> $onOrOff, $device")
     channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
@@ -115,7 +115,7 @@ function pauseAction(topic, payload)
     println("[ADoSnipsTVViera]: action pauseAction() started.")
 
     tv = getMatchedTv(payload)
-    Snips.isValidOrEnd(tv, :no_tv_in_room) || return true
+    Snips.isValidOrEnd(tv, errorMsg = :no_tv_in_room) || return true
 
     pause = Snips.extractSlotValue(payload, SLOT_PAUSE)
 
@@ -123,11 +123,11 @@ function pauseAction(topic, payload)
 
         if pause == "play"
             Snips.publishEndSession(:ok)
-            pausePlayTV(Snips.getConfig(INI_TV_IP))
+            pausePlayTV(tv[:ip])
             return false
         else # pause == "pause"
             Snips.publishEndSession(:ok)
-            pausePauseTV(Snips.getConfig(INI_TV_IP))
+            pausePauseTV(tv[:ip])
             return false
         end
     else
@@ -166,7 +166,7 @@ function getMatchedTv(payload)
             tv = Dict(:id => tvName,
                       :room => room,
                       :ip => Snips.getConfig("$(tvName)_$INI_TV_IP"),
-                      :on_mode => Snips.getConfig("$(tvName)_$INI_ON_MODE")
+                      :on_mode => Snips.getConfig("$(tvName)_$INI_ON_MODE"),
                       :channels => Snips.getConfig("$(tvName)_$INI_CHANNELS"))
         end
     end
