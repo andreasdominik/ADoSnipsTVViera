@@ -26,10 +26,80 @@ IR-remote.
 
 ## config.ini
 
+Config parameters include:
+
+```
+[global]
+language=de
+[secret]
+tv_sets=plasma
+plasma_description=big TV in living room
+plasma_room=default
+plasma_ip=192.168.0.25
+plasma_on_mode=cec
+plasma_channels=ARD,ZDF,Arte,NDR,HR,SWR,MDR,BR,One,Servus
+```
+
+**language**
+Language setting. Currently only `de` is supported.
+
+**tv_sets**
+Comma-separated list of unique names of the TV sets. One TV is possible in
+each room (i.e siteId).
+
+The following entries apply to each defined TV set:
+
+**&lt;unique name&gt;_description**
+Plain-text desctiption
+
+**&lt;unique name&gt;_room**
+`siteId` of the location of the tv. If no room is given in the command,
+always the tv in the room is controlled, in which the command is
+recorded.
+
+**&lt;unique name&gt;_ip**
+IP-address of TV
+
+**&lt;unique name&gt;_on_mode**
+One of `cec` or `upnp`: If the TV can be switched on via uPnP, this mode
+should be used. If not, the workaround is to connect the RPi with
+a HDMI-cable with the TV and switch on via CEC (`cec-client`).
+
+**&lt;unique name&gt;_channels**
+List of channels as confgured at the TV.
+
+
 The list of TV channels must correspond with the list of values in the
 slot `TV_channel` of the intents (ON_OFF and SwitchChannel). The sequence
 determins the channel number; i.e. must correspond with the channels on
 the TV set.
+
+## Trigger
+
+The app can be remote-controlled by avtivating a trigger with a
+MQTT message.
+The message mut sbe published at the same MQTT host which is used
+by Snips.
+The required topic is `qnd/trigger/andreasdominik:ADoSnipsTVViera`.
+The payload something like:
+
+```
+{
+  "target" : "qnd/trigger/andreasdominik:ADoSnipsTVViera",
+  "origin" : "ADoSnipsScheduler",
+  "sessionId": "1234567890abcdef",
+  "siteId" : "default",
+  "time" : "2019-06-09T12:48:53.61",
+  "trigger" : {
+    "room" : "default",
+    "device" : "plasma",
+    "commands" : [ "wakeup", "TV", "2", "center", "pause"],
+    "delay" : 0.5
+  }
+}
+```
+All commands accepted by the script `viera.sh` are possible. They will be
+executed with the specified delay in between.
 
 # Julia
 
