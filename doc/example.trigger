@@ -7,7 +7,7 @@
   "trigger" : {
     "room" : "default",
     "device" : "plasma",
-    "commands" : [ "mute", "2", "center", "standby"],
+    "commands" : [ "susi", "wait20", "AV","up", "up", "center"],
     "delay" : 0.5
   }
 }

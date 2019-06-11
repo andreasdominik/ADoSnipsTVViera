@@ -47,6 +47,9 @@ if [[ ($1 == "-h") ]] || [[ ($# -lt 1) ]] ; then
     standby
     wakeup (wake up by CEC "on 0")
     susi (wakeup by CEC "as" on HDMI4)
+  waits (in sec):
+    wait1
+    wait10
 ENDHELP
   exit 1
 fi
@@ -83,7 +86,6 @@ URL=$URL_CMD
 URN=$URN_CMD
 ACTION="X_SendKey"
 
-
 # switch commands (render or command mode):
 #
 case "$CMD" in
@@ -94,6 +96,15 @@ case "$CMD" in
   wakeup)
     echo "on 0" | cec-client -s -d 1
     exit $?
+    ;;
+  wait20)
+    sleep 20
+    ;;
+  wait10)
+    sleep 10
+    ;;
+  wait1)
+    sleep 1
     ;;
   listPresets)
     ACTION="ListPresets"
