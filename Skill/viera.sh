@@ -45,7 +45,8 @@ if [[ ($1 == "-h") ]] || [[ ($# -lt 1) ]] ; then
   Only poweroff possible by DLNA (because TV is not listening in standby mode):
   wakeup/poweron is implemented via CEC.
     standby
-    wakeup
+    wakeup (wake up by CEC "on 0")
+    susi (wakeup by CEC "as" on HDMI4)
 ENDHELP
   exit 1
 fi
@@ -86,6 +87,10 @@ ACTION="X_SendKey"
 # switch commands (render or command mode):
 #
 case "$CMD" in
+  susi)
+    echo "as" | cec-client -s -d 1
+    exit $?
+    ;;
   wakeup)
     echo "on 0" | cec-client -s -d 1
     exit $?

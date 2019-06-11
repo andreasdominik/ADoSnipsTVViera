@@ -19,7 +19,7 @@ function switchTVon(ip, mode)
         if mode == "upnp"
             runVieraCmd(ip, "standby")
         else  # use cec:
-            runVieraCmd(ip, "wakeup")
+            runVieraCmd(ip, "susi")
         end
         sleep(10)
         runVieraCmd(ip, "TV")
