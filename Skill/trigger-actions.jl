@@ -47,7 +47,7 @@ function triggerTVVieraAction(topic, payload)
     ip = Snips.getConfig("$(device)_$(INI_TV_IP)")
 
     for command in commands
-        runVieraCmd(ip, command)
+        runVieraCmd(ip, command, silent = true)
         sleep(delay)
     end
 

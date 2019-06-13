@@ -99,12 +99,15 @@ case "$CMD" in
     ;;
   wait20)
     sleep 20
+    exit $?
     ;;
   wait10)
     sleep 10
+    exit $?
     ;;
   wait1)
     sleep 1
+    exit $?
     ;;
   listPresets)
     ACTION="ListPresets"
