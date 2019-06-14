@@ -48,18 +48,23 @@ function switchOnOffActions(topic, payload)
 
         if onOrOff == "ON"
             Snips.publishEndSession(:switchon)
-            switchTVon(tv[:ip], tv[:on_mode])
+            switchTVon(tv, tv[:on_mode])
 
             if channelNo > 0
                 sleep(2)
                 switchTVChannel(tv[:ip], channelNo)
             end
         else
-            Snips.publishEndSession(:switchoff)
-            switchTVoff(tv[:ip])
+            if isOnViera(tv)
+                Snips.publishEndSession(:switchoff)
+                switchTVoff(tv)
+            else
+                Snips.publishEndSession(:tv_is_off)
+            end
         end
 
     elseif device == "volume"
+        isOnViera(tv)
         if onOrOff == "ON"
             Snips.publishEndSession(:unmute)
             unmuteTV(tv[:ip])

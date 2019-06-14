@@ -7,42 +7,43 @@ VIERA_SH = "$(Snips.getAppDir())/Skill/viera.sh"
 
 
 """
-    switchTVon(ip, mode)
+    switchTVon(tv, mode)
 
 Switch the TV on via a DLNA/uPnP command
 (only possible, if the DLNA-server of the TV is running in standby)
 or CEC
 """
-function switchTVon(ip, mode)
+function switchTVon(tv, mode)
 
-    if ! isOnViera(ip)
+    if ! isOnViera(tv)
         if mode == "upnp"
-            runVieraCmd(ip, "standby")
+            runVieraCmd(tv[:ip], "standby")
         else  # use cec:
-            runVieraCmd(ip, "susi")
+            runVieraCmd(tv[:ip], "susi")
         end
         sleep(10)
-        runVieraCmd(ip, "TV")
+        runVieraCmd(tv[:ip], "TV")
     else
         #Snips.publishSay(:already_on)
     end
 end
 
-function isOnViera(ip)
+function isOnViera(tv)
 
-    try
-        vol = read(`$VIERA_SH $ip getVolume`, String)
-        return  occursin(r"<CurrentVolume>[0-9]+</CurrentVolume>", vol)
-    catch
-        return false
-    end
+    # try
+    #     vol = read(`$VIERA_SH $ip getVolume`, String)
+    #     return  occursin(r"<CurrentVolume>[0-9]+</CurrentVolume>", vol)
+    # catch
+    #     return false
+    # end
+    return Snips.ping(tv[:ip])
 end
 
 
 
-function switchTVoff(ip)
+function switchTVoff(tv)
 
-    runVieraCmd(ip, "standby")
+    runVieraCmd(tv[:ip], "standby")
 end
 
 
