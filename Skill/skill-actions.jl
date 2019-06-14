@@ -64,7 +64,11 @@ function switchOnOffActions(topic, payload)
         end
 
     elseif device == "volume"
-        isOnViera(tv)
+        if !isOnViera(tv)
+            Snips.publishEndSession(:tv_is_off)
+            return true
+        end
+
         if onOrOff == "ON"
             Snips.publishEndSession(:unmute)
             unmuteTV(tv[:ip])
@@ -89,6 +93,11 @@ function switchChannelAction(topic, payload)
     #
     tv = getMatchedTv(payload)
     Snips.isValidOrEnd(tv, errorMsg = :no_tv_in_room) || return true
+    if !isOnViera(tv)
+        Snips.publishEndSession(:tv_is_off)
+        return true
+    end
+
 
     # println(">>> $onOrOff, $device")
     channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
@@ -121,6 +130,10 @@ function pauseAction(topic, payload)
 
     tv = getMatchedTv(payload)
     Snips.isValidOrEnd(tv, errorMsg = :no_tv_in_room) || return true
+    if !isOnViera(tv)
+        Snips.publishEndSession(:tv_is_off)
+        return true
+    end
 
     pause = Snips.extractSlotValue(payload, SLOT_PAUSE)
 
