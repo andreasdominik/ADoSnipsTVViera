@@ -43,7 +43,9 @@ end
 
 function switchTVoff(tv)
 
-    runVieraCmd(tv[:ip], "standby")
+    if isOnViera(tv)
+        runVieraCmd(tv[:ip], "standby")
+    end
 end
 
 
