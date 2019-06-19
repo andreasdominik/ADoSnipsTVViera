@@ -75,6 +75,7 @@ VALUE=$3
 #
 # TV_IP="192.168.42.151"
 TV_PORT="55000"
+TIMEOUT=1
 
 URL_RENDER="/dmr/control_0"
 URN_RENDER="urn:schemas-upnp-org:service:RenderingControl:1"
@@ -258,7 +259,8 @@ echo $HEADER_2
 echo $HEADER_3
 
 
-curl ${V} ${CURL_ARGS} -X POST -d "$CONTENT" http://${TV_IP}:${TV_PORT}$URL \
-    --header "$HEADER_1" --header "$HEADER_2" --header "$HEADER_3"
+curl ${V} --connect-timeout $TIMEOUT \
+     ${CURL_ARGS} -X POST -d "$CONTENT" http://${TV_IP}:${TV_PORT}$URL \
+     --header "$HEADER_1" --header "$HEADER_2" --header "$HEADER_3"
 
 exit $?  # return curl exit status
