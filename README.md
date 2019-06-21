@@ -94,11 +94,11 @@ Config parameters include:
 language=de
 [secret]
 tv_sets=plasma
-plasma_description=big TV in living room
-plasma_room=default
-plasma_ip=192.168.0.25
-plasma_on_mode=cec
-plasma_channels=ARD,ZDF,Arte,NDR,HR,SWR,MDR,BR,One,Servus
+plasma:description=big TV in living room
+plasma:room=default
+plasma:ip=192.168.0.25
+plasma:on_mode=cec
+plasma:channels=ARD,ZDF,Arte,NDR,HR,SWR,MDR,BR,One,Servus
 ```
 
 ##### language
