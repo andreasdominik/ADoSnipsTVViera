@@ -33,6 +33,58 @@ uPnP/DLNA and CEC.
 The script allows for submitting almost all commands present on an
 IR-remote.
 
+#### Supported commands
+Volume control:
+```
+    getVolume
+    setVolume value
+    mute
+    unMute
+    getMute
+```
+  Numbers:
+```
+    0-9
+```
+  Source:
+```
+    TV
+    AV
+```
+  Arrow navigation:
+```
+    right
+    left
+    up
+    down
+    center
+    return
+    exit
+```
+  Other:
+```
+    vieraLink
+    epg
+    info
+```
+  Pause/resume:
+```
+    play
+    pause
+```
+  Only poweroff possible by DLNA (because TV is not listening in standby mode;
+  wakeup/poweron is implemented via CEC):
+```
+    standby
+    wakeup (wake up by CEC "on 0")
+    susi (wakeup by CEC "as" on HDMI4)
+```
+  waits (in sec):
+```
+    wait1
+    wait10
+    wait20
+```
 ## config.ini
 
 Config parameters include:
@@ -49,33 +101,33 @@ plasma_on_mode=cec
 plasma_channels=ARD,ZDF,Arte,NDR,HR,SWR,MDR,BR,One,Servus
 ```
 
-**language**
+##### language
 Language setting. Currently only `de` is supported, because intents in
 other languages are missing.
 
-**tv_sets**
+##### tv_sets
 Comma-separated list of unique names of the TV sets. One TV is possible in
 each room (i.e siteId).
 
 The following entries apply to each defined TV set:
 
-**&lt;unique name&gt;_description**
+##### &lt;unique name&gt;:description
 Plain-text desctiption
 
-**&lt;unique name&gt;_room**
+##### &lt;unique name&gt;:room
 `siteId` of the location of the tv. If no room is given in the command,
 always the tv in the room is controlled, in which the command is
 recorded.
 
-**&lt;unique name&gt;_ip**
+##### &lt;unique name&gt;:ip
 IP-address of TV
 
-**&lt;unique name&gt;_on_mode**
+##### &lt;unique name&gt;:on_mode
 One of `cec` or `upnp`: If the TV can be switched on via uPnP, this mode
 should be used. If not, the workaround is to connect the RPi with
 a HDMI-cable with the TV and switch on via CEC (`cec-client`).
 
-**&lt;unique name&gt;_channels**
+##### &lt;unique name&gt;:channels
 List of channels as confgured at the TV.
 
 

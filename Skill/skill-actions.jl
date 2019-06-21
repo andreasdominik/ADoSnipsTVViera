@@ -174,18 +174,18 @@ function getMatchedTv(payload)
     end
 
     for tvName in tvs
-        tvRoomName = "$(tvName)_$INI_TV_ROOM"
+        tvRoomName = "$(tvName):$INI_TV_ROOM"
         Snips.isConfigValid(tvRoomName) || return nothing
         if Snips.getConfig(tvRoomName) == room
-            Snips.isConfigValid("$(tvName)_$INI_TV_IP") || return nothing
-            Snips.isConfigValid("$(tvName)_$INI_ON_MODE") || return nothing
-            Snips.getConfig("$(tvName)_$INI_CHANNELS") isa AbstractArray || return nothing
+            Snips.isConfigValid("$(tvName):$INI_TV_IP") || return nothing
+            Snips.isConfigValid("$(tvName):$INI_ON_MODE") || return nothing
+            Snips.getConfig("$(tvName):$INI_CHANNELS") isa AbstractArray || return nothing
 
             tv = Dict(:id => tvName,
                       :room => room,
-                      :ip => Snips.getConfig("$(tvName)_$INI_TV_IP"),
-                      :on_mode => Snips.getConfig("$(tvName)_$INI_ON_MODE"),
-                      :channels => Snips.getConfig("$(tvName)_$INI_CHANNELS"))
+                      :ip => Snips.getConfig("$(tvName):$INI_TV_IP"),
+                      :on_mode => Snips.getConfig("$(tvName):$INI_ON_MODE"),
+                      :channels => Snips.getConfig("$(tvName):$INI_CHANNELS"))
         end
     end
     return tv

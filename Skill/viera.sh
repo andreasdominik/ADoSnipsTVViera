@@ -50,6 +50,7 @@ if [[ ($1 == "-h") ]] || [[ ($# -lt 1) ]] ; then
   waits (in sec):
     wait1
     wait10
+    wait20
 ENDHELP
   exit 1
 fi
