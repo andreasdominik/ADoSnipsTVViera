@@ -43,8 +43,8 @@ function triggerTVVieraAction(topic, payload)
 
     # get device params from config.ini:
     #
-    Snips.isConfigValid("$(device)_$(INI_TV_IP)") || return false
-    ip = Snips.getConfig("$(device)_$(INI_TV_IP)")
+    Snips.isConfigValid("$(device):$(INI_TV_IP)") || return false
+    ip = Snips.getConfig("$(device):$(INI_TV_IP)")
 
     for command in commands
         runVieraCmd(ip, command, silent = true)
