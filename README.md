@@ -6,7 +6,7 @@ written in Julia.
  The full documentation of the framework is just work-in-progress!
  Current version can be visited here:
 
- [Framework documentation in devellopment](https://andreasdominik.github.io/ADoSnipsQnD/dev)
+ [Framework documentation](https://andreasdominik.github.io/ADoSnipsQnD/dev)
 
 
 ## Commands
