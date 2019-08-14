@@ -82,6 +82,17 @@ end
 
 
 
+function startListen()
+
+    trigger = Dict( :command => "start")
+    Snips.publishSystemTrigger("ADoSnipsListen", trigger)
+end
+
+function stopListen()
+
+    trigger = Dict( :command => "stop")
+    Snips.publishSystemTrigger("ADoSnipsListen", trigger)
+end
 
 
 function runVieraCmd(ip, cmd; silent = false)

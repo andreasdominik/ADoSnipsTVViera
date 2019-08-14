@@ -12,3 +12,6 @@ Snips.addText("de", :unmute, "Ich schalte den Ton an.")
 Snips.addText("de", :channel, "Ich schalte um auf")
 Snips.addText("de", :error_channel, "Ich habe den Sender nicht verstanden")
 Snips.addText("de", :no_tv_in_room, "In diesem Raum gibt es keinen Fernseher!")
+
+Snips.addText("de", :not_listen, "Ich höre jetzt nicht mehr zu!")
+Snips.addText("de", :not_listen, "Ich höre jetzt weg!")

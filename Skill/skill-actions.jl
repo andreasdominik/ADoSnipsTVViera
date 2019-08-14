@@ -47,6 +47,8 @@ function switchOnOffActions(topic, payload)
         channelNo = channelToNumber(channel, tv[:channels])
 
         if onOrOff == "ON"
+            stopListen()
+            Snips.publishSay(:not_listen)
             Snips.publishEndSession(:switchon)
             switchTVon(tv, tv[:on_mode])
 
@@ -140,6 +142,8 @@ function pauseAction(topic, payload)
     if pause != nothing && pause in ["play", "pause"]
 
         if pause == "play"
+            stopListen()
+            Snips.publishSay(:not_listen)
             Snips.publishEndSession(:ok)
             pausePlayTV(tv[:ip])
             return false
