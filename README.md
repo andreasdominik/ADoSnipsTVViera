@@ -1,10 +1,11 @@
 # ADoSnipsTVViera
 
-This is a template skill for the SnipsHermesQnD framework for Snips.ai
-written in Julia.
+This is a skill for Snips.ai to control a Panasonic Viera TV.
 
- The full documentation of the framework is just work-in-progress!
- Current version can be visited here:
+The skil is based on the QnD-framework, written in the
+programming language Julia.
+The full documentation of the framework is just work-in-progress!
+Current version can be visited here:
 
  [Framework documentation](https://andreasdominik.github.io/ADoSnipsQnD/dev)
 
