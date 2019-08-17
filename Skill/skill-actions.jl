@@ -48,7 +48,7 @@ function switchOnOffActions(topic, payload)
 
         if onOrOff == "ON"
             stopListen()
-            Snips.publishSay(:not_listen)
+            # Snips.publishSay(:not_listen)
             Snips.publishEndSession(:switchon)
             switchTVon(tv, tv[:on_mode])
 
@@ -143,7 +143,7 @@ function pauseAction(topic, payload)
 
         if pause == "play"
             stopListen()
-            Snips.publishSay(:not_listen)
+            # Snips.publishSay(:not_listen)
             Snips.publishEndSession(:ok)
             pausePlayTV(tv[:ip])
             return false
