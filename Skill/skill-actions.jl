@@ -39,7 +39,6 @@ function switchOnOffActions(topic, payload)
     tv = getMatchedTv(payload)
     Snips.isValidOrEnd(tv, errorMsg = :no_tv_in_room) || return true
 
-    # println(">>> $onOrOff, $device")
     if device == "TV"
         # check, if all config.ini entries are in correct:
         #
@@ -89,7 +88,7 @@ function switchChannelAction(topic, payload)
 
     # log:
     #
-    Snips.printLogln("action switchChannelAction() started.")
+    Snips.printLog("action switchChannelAction() started.")
 
     # continue only, if a tv in room:
     #
@@ -101,9 +100,7 @@ function switchChannelAction(topic, payload)
     end
 
 
-    # println(">>> $onOrOff, $device")
     channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
-    # println(">>> Slot: $SLOT_CHANNEL, $channel")
     channelNo = channelToNumber(channel, tv[:channels])
 
     if channelNo > 0
@@ -128,7 +125,7 @@ function pauseAction(topic, payload)
 
     # log:
     #
-    Snips.printLogln("action pauseAction() started.")
+    Snips.printLog("action pauseAction() started.")
 
     tv = getMatchedTv(payload)
     Snips.isValidOrEnd(tv, errorMsg = :no_tv_in_room) || return true

@@ -23,7 +23,7 @@ The trigger must have the following JSON format:
 """
 function triggerTVVieraAction(topic, payload)
 
-    Snips.printLogln("action triggerTVViera() started.")
+    Snips.printLog("action triggerTVViera() started.")
 
     # text if trigger is complete:
     #
