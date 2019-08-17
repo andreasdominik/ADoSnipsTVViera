@@ -19,7 +19,7 @@ function switchOnOffActions(topic, payload)
 
     # log:
     #
-    println("[ADoSnipsTVViera]: action switchOnOffActions() started.")
+    Snips.printLog("action switchOnOffActions() started.")
 
     # ignore, if not responsible (other device):
     #
@@ -89,7 +89,7 @@ function switchChannelAction(topic, payload)
 
     # log:
     #
-    println("[ADoSnipsTVViera]: action switchChannelAction() started.")
+    Snips.printLogln("action switchChannelAction() started.")
 
     # continue only, if a tv in room:
     #
@@ -128,7 +128,7 @@ function pauseAction(topic, payload)
 
     # log:
     #
-    println("[ADoSnipsTVViera]: action pauseAction() started.")
+    Snips.printLogln("action pauseAction() started.")
 
     tv = getMatchedTv(payload)
     Snips.isValidOrEnd(tv, errorMsg = :no_tv_in_room) || return true
