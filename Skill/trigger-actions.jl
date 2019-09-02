@@ -23,9 +23,9 @@ The trigger must have the following JSON format:
 """
 function triggerTVVieraAction(topic, payload)
 
-    Snips.printLog("action triggerTVViera() started.")
+    Snips.printLog("trigger action triggerTVViera() started.")
 
-    # text if trigger is complete:
+    # test if trigger is complete:
     #
     payload isa Dict || return false
     haskey( payload, :trigger) || return false
