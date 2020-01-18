@@ -1,0 +1,58 @@
+# Intent definition for Lights skill
+#
+#  (c) A. Dominik, 2020
+#
+skill = "ADoSnipsTVVieraDE"
+developer = "andreasdominik"
+
+
+[inventory]
+intents = ["SwitchChannel", "VieraPauseDE"]
+slots = ["TV_channel", "tvPauseCmd"]
+
+
+# define slots:
+# Types: Any/List/InstantTime/Currency/Number/Ordinal/...
+#
+[TV_channel]
+slot_type = "ListOfValues"
+
+        [TV_channel.synonyms]
+        "Servus" = ["Servus", "Servus TV"]
+        "One" = "One"
+        "BR" = ["Bayern", "Bayern 3", "BR", "BR 3"]
+        "MDR" = "MDR"
+        "SWR" = ["SWR", "Südwest 3", "Südwestfunk"]
+        "HR" = ["HR", "Hessen", "Hessen 3", "HR 3"]
+        "NDR" = ["NDR", "Norddeutscher Rundfunk"]
+        "Arte" = "Arte"
+        "ZDF" = ["ZDF", "Das Zweite", "Zweite", "zweite.? Programm", "zweiten", "2"]
+        "ARD" = ["ARD", "Das Erste", "Erste", "ersten Programm", "erste Programm",
+                 "Ersten"]
+
+
+[tvPauseCmd]
+slot_type = "ListOfValues"
+
+        [tvPauseCmd.synonyms]
+        "play" = ["weitermachen", "weiter", "fortsetzen", "weiterspielen",
+                  "spielen", "abspielen", "spiele", "starte", "zeige"]
+        "pause" = ["anhalten", "halte", "stop", "stoppe", "unterbreche",
+                   "unterbrich", "pausieren"]
+
+
+
+
+
+
+# define phrases for intent recognition:
+# exact, regex, part
+#
+[VieraPauseDE]
+disable_on_start = false
+pause_play = "ordered: <<tvPauseCmd>> <<Film|Video|Bilder|Diashow>> <<weiter|an|>>"
+
+[SwitchChannel]
+disable_on_start = false
+switch_channel = "ordered: <<ins|in|zum|in das|auf>> <<TV_channel>> umschalten"
+switch_channel2 = "ordered: schalte <<ins|in|zum|in das|auf>> <<TV_channel>>"
