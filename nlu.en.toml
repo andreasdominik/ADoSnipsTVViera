@@ -1,0 +1,51 @@
+# Intent definition for Lights skill
+#
+#  (c) A. Dominik, 2020
+#
+skill = "ADoSnipsTVViera"
+developer = "andreasdominik"
+
+
+[inventory]
+intents = ["SwitchChannel", "VieraPause"]
+slots = ["TV_channel", "tvPauseCmd"]
+
+
+# define slots:
+# Types: Any/List/InstantTime/Currency/Number/Ordinal/...
+#
+[TV_channel]
+slot_type = "ListOfValues"
+
+        [TV_channel.synonyms]
+        "Channel_4" = "channel 4"
+        "BBC_1" = ["BBC 1", "BBC One"]
+        "BBC_2" = ["BBC 2", "BBC Two"]
+        "ITV" = ["ITV", "I T V"]
+        "Film4" = ["Film4", "Film 4", "Film Four"]
+
+
+[tvPauseCmd]
+slot_type = "ListOfValues"
+
+        [tvPauseCmd.synonyms]
+        "play" = ["continue playing", "play", "continue", "resume",
+                  "show", "start playing", "start"]
+        "pause" = ["halt", "interrupt", "stop", "end", "pause"]
+
+
+
+
+
+
+# define phrases for intent recognition:
+# exact, regex, part
+#
+[VieraPause]
+disable_on_start = false
+pause_play = "ordered: <<tvPauseCmd>> <<film|movie|video|slides|slideshow|slide show>> "
+pause_play_one = "exact: <<resume|continue|proceed|go on>>"
+
+[SwitchChannel]
+disable_on_start = false
+switch_channel = "ordered: <<switch|change>> <<the television|the TV>> <<TV_channel>>"

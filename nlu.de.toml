@@ -2,12 +2,12 @@
 #
 #  (c) A. Dominik, 2020
 #
-skill = "ADoSnipsTVVieraDE"
+skill = "ADoSnipsTVViera"
 developer = "andreasdominik"
 
 
 [inventory]
-intents = ["SwitchChannel", "VieraPauseDE"]
+intents = ["SwitchChannel", "VieraPause"]
 slots = ["TV_channel", "tvPauseCmd"]
 
 
@@ -48,11 +48,12 @@ slot_type = "ListOfValues"
 # define phrases for intent recognition:
 # exact, regex, part
 #
-[VieraPauseDE]
+[VieraPause]
 disable_on_start = false
-pause_play = "ordered: <<tvPauseCmd>> <<Film|Video|Bilder|Diashow>> <<weiter|an|>>"
+pause_play = "ordered: <<tvPauseCmd>> <<Film|Video|Bilder|Diashow>> <<weiter|an|fort>>"
+pause_play_one = "exact: <<weitermachen|weiter machen>>"
 
 [SwitchChannel]
 disable_on_start = false
 switch_channel = "ordered: <<ins|in|zum|in das|auf>> <<TV_channel>> umschalten"
-switch_channel2 = "ordered: schalte <<ins|in|zum|in das|auf>> <<TV_channel>>"
+switch_channel2 = "ordered: schalte <<um|>> <<ins|in|zum|in das|auf>> <<TV_channel>>"

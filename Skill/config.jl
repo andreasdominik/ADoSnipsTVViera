@@ -37,16 +37,9 @@ const INI_ON_MODE = "on_mode"   # one of "upnp", "cec"
 
 # link between actions and intents:
 # intent is linked to action{Funktion}
-# Language-dependent settings:
 #
-if LANG == "de"
-    Snips.registerIntentAction("ADoSnipsOnOffDE", switchOnOffActions)
-    Snips.registerIntentAction("SwitchChannel", switchChannelAction)
-    Snips.registerIntentAction("VieraPauseDE", pauseAction)
-    Snips.registerTriggerAction("ADoSnipsTVViera", triggerTVVieraAction)
-else
-    Snips.registerIntentAction("ADoSnipsOnOffDE", switchOnOffActions)
-    Snips.registerIntentAction("SwitchChannel", switchChannelAction)
-    Snips.registerIntentAction("VieraPauseDE", pauseAction)
-    Snips.registerTriggerAction("ADoSnipsTVViera", triggerTVVieraAction)
-end
+Snips.registerIntentAction("ADoSnipsOnOff", switchOnOffActions)
+Snips.registerIntentAction("SwitchChannel", switchChannelAction)
+Snips.registerIntentAction("VieraPause", pauseAction)
+
+Snips.registerTriggerAction("ADoSnipsTVViera", triggerTVVieraAction)
