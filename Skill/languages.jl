@@ -15,3 +15,6 @@ Snips.addText("de", :no_tv_in_room, "In diesem Raum gibt es keinen Fernseher!")
 
 Snips.addText("de", :not_listen, "Ich höre jetzt nicht mehr zu!")
 Snips.addText("de", :not_listen, "Ich höre jetzt weg!")
+
+
+Snips.addText("en", :dunno, "I do not know what to do!")
