@@ -36,11 +36,13 @@ function switchOnOffActions(topic, payload)
 
     # continue only, if a tv in room:
     #
+    Snips.printLog("vor getTV")
     tv = getMatchedTv(payload)
+    Snips.printLog("nach getTV")
     Snips.isValidOrEnd(tv, errorMsg = :no_tv_in_room) || return true
 
     if device == "TV"
-        # check, if all config.ini entries are in correct:
+        # check, if all config.ini entries are correct:
         #
         channel = Snips.extractSlotValue(payload, SLOT_CHANNEL)
         channelNo = channelToNumber(channel, tv[:channels])
