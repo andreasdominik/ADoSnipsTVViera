@@ -35,7 +35,7 @@ slot_type = "ListOfValues"
 slot_type = "ListOfValues"
 
         [tvPauseCmd.synonyms]
-        "play" = ["weitermachen", "weiter", "fortsetzen", "weiterspielen",
+        "play" = ["weitermachen" "weiter machen", "weiter", "fortsetzen", "weiterspielen",
                   "spielen", "abspielen", "spiele", "starte", "zeige"]
         "pause" = ["anhalten", "halte", "stop", "stoppe", "unterbreche",
                    "unterbrich", "pausieren"]
@@ -51,7 +51,7 @@ slot_type = "ListOfValues"
 [VieraPause]
 disable_on_start = false
 pause_play = "ordered: <<tvPauseCmd>> <<Film|Video|Bilder|Diashow>> <<weiter|an|fort>>"
-pause_play_one = "exact: <<weitermachen|weiter machen>>"
+pause_play_one = "exact: <<tvPauseCmd>>"
 
 [SwitchChannel]
 disable_on_start = false
