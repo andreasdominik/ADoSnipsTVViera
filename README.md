@@ -9,6 +9,11 @@ Current version can be visited here:
 
  [Framework documentation](https://andreasdominik.github.io/ADoSnipsQnD/dev)
 
+### Update:
+NLU (natural language understanding) definition files are added for
+(English and) German and make it possible to use the skill with
+Susi (Susi is no Snips) without Snips or the Snips console 
+(https://github.com/andreasdominik/Susi).
 
 ## Commands
 
