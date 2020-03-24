@@ -13,7 +13,7 @@
 """
     switchOnOffActions(topic, payload)
 
-Switch on the TV set with teh vierra-script.
+Switch on the TV set with the vierra-script.
 """
 function switchOnOffActions(topic, payload)
 
@@ -199,14 +199,12 @@ end
 
 function channelToNumber(channel, channels)
 
-    if channel == nothing || channel == "unknown" || length(channel) < 1
-        return 0
-    end
-
-    channelNo = findfirst(isequal(channel), channels)
-
-    if channelNo == nothing
-        return 0
+    channelNo = 0
+    if channel isa AbstractString && !isempty(channel)
+        channelLookup = findfirst(isequal(channel), channels)
+        if channelLookup isa Number
+            channelNo = channelLookup
+        end
     end
 
     return channelNo
